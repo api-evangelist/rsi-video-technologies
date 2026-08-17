@@ -1,19 +1,34 @@
 aid: rsi-video-technologies
 name: RSI Video Technologies
-description: 'RSI Video Technologies is a company surfaced as a portfolio company of serena and added
-  to the API Evangelist network as a stub for enrichment. Sector: unknown. This profile is a lead awaiting
-  the enrichment pipeline.'
+description: >-
+  RSI Video Technologies was a St. Paul, Minnesota maker of wireless, battery-powered
+  intrusion detection devices with built-in cameras, sold worldwide under the Videofied
+  brand, together with the Frontel receiver software that delivered alarm events and
+  short video clips to professional central monitoring stations. Honeywell acquired the
+  company for approximately USD 123 million in March 2016, and the Videofied product
+  line moved to Resideo Technologies when Honeywell spun out its Homes business in 2018.
+  RSI Video Technologies no longer operates as an independent company: its own domains
+  either do not resolve or redirect into Resideo and Honeywell Home marketing pages, and
+  it publishes no developer program, documentation or machine-readable API contract of
+  its own. Any current developer surface for Videofied hardware belongs to Resideo and is
+  profiled separately in the API Evangelist network as resideo-technologies.
 url: https://raw.githubusercontent.com/api-evangelist/rsi-video-technologies/refs/heads/main/apis.yml
 x-type: company
 x-source: serena-portfolio
 x-tier: stub
-x-tier-reason: portfolio-lead
+x-tier-reason: defunct-absorbed
 specificationVersion: '0.20'
 created: '2026-08-17'
 modified: '2026-08-17'
 tags:
 - Company
-- Unknown
+- Security
+- Intrusion Detection
+- Video Verification
+- Alarm Monitoring
+- Central Station Monitoring
+- Hardware
+- Acquired
 apis: []
 maintainers:
 - FN: Kin Lane
@@ -21,5 +36,49 @@ maintainers:
 - FN: APIs.json
   email: info@apis.io
 common:
+- type: DomainSecurity
+  url: security/rsi-video-technologies-domain-security.yml
 - type: Website
-  url: https://www.videofied.com/
+  url: https://videofied.com/
+x-successor:
+  company: Resideo Technologies
+  aid: resideo-technologies
+  note: >-
+    Videofied is a Resideo product line today. Recorded as context only - Resideo's
+    developer surface (developer.honeywellhome.com, proseriesapi.resideo.com) is NOT
+    attributed to this company and is not wired into this profile.
+  evidence:
+  - url: https://videofied.com/
+    status: 200
+    note: 301 then 200 at https://www.resideo.com/emea/en/solutions/security/residential-security/videofied/
+  - url: https://investor.honeywell.com/news-releases/news-release-details/honeywell-acquires-rsi-video-technologies-leading-provider
+    status: 200
+    note: Honeywell acquisition announcement, March 2016.
+x-enrichment:
+  date: '2026-08-17'
+  status: minimal
+  artifacts_added: 2
+  pass: local-v1
+x-coverage:
+  state: none
+  reason: defunct
+  detail: >-
+    videofied.com is no longer a company site - it is a bare Azure App Service
+    redirector (serving the Azure wildcard *.azurewebsites.net certificate, which does
+    not even match the hostname) that 301s the brand's old marketing paths into
+    resideo.com and honeywellhome.com and 404s everything else, while
+    www.videofied.com and rsivideotech.com return NXDOMAIN and rsivideo.com is a parked
+    lander; Honeywell bought RSI Video Technologies in March 2016 and the Videofied line
+    now belongs to Resideo, so there is no RSI-operated developer surface left to read.
+  evidence:
+  - url: https://videofied.com/
+    status: 200
+  - url: https://videofied.com/.well-known/security.txt
+    status: 404
+  - url: https://videofied.com/openapi.json
+    status: 404
+  - url: https://videofied.com/us/frontel-receiver-software/
+    status: 200
+  - url: https://rsivideo.com/
+    status: 200
+  checked: '2026-08-17'

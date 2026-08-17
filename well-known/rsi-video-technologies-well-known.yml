@@ -1,0 +1,105 @@
+generated: '2026-08-17'
+method: probed
+source: >-
+  Live unauthenticated probes of https://videofied.com/, the only host named in
+  apis.yml. www.videofied.com and rsivideotech.com do not resolve (NXDOMAIN), so
+  there was no second host to probe.
+note: >-
+  EVERY path returned 404. No WellKnown or SecurityTxt pointer is emitted, because
+  nothing here is a served document. videofied.com is not a company site: it is a
+  bare redirector app on Azure App Service (TLS certificate is the Azure wildcard
+  *.azurewebsites.net, which does not match the hostname) that 301s a handful of
+  known marketing paths into Resideo and Honeywell Home, and 404s everything else
+  with a 103-byte HTML body. RSI Video Technologies was acquired by Honeywell in
+  March 2016 and the Videofied brand now sits with Resideo; there is no RSI-operated
+  surface left to probe.
+hosts:
+- host: videofied.com
+  resolves: true
+  address: 23.100.46.198
+  platform: Azure App Service (redirector)
+  tls_hostname_match: false
+  tls_certificate_subject: 'CN=*.azurewebsites.net (Microsoft Corporation)'
+  root_behavior: 301 https://videofied.com/ then 200 at https://www.resideo.com/emea/en/solutions/security/residential-security/videofied/
+- host: www.videofied.com
+  resolves: false
+  note: NXDOMAIN - no A record. This is the URL apis.yml carried as the company Website.
+- host: rsivideotech.com
+  resolves: false
+  note: NXDOMAIN - no A record.
+probes:
+- path: /.well-known/security.txt
+  url: https://videofied.com/.well-known/security.txt
+  status: 404
+  file: null
+- path: /.well-known/openid-configuration
+  url: https://videofied.com/.well-known/openid-configuration
+  status: 404
+  file: null
+- path: /.well-known/oauth-authorization-server
+  url: https://videofied.com/.well-known/oauth-authorization-server
+  status: 404
+  file: null
+- path: /.well-known/api-catalog
+  url: https://videofied.com/.well-known/api-catalog
+  status: 404
+  file: null
+- path: /.well-known/ai-plugin.json
+  url: https://videofied.com/.well-known/ai-plugin.json
+  status: 404
+  file: null
+- path: /.well-known/agent-card.json
+  url: https://videofied.com/.well-known/agent-card.json
+  status: 404
+  file: null
+- path: /.well-known/agent.json
+  url: https://videofied.com/.well-known/agent.json
+  status: 404
+  file: null
+- path: /robots.txt
+  url: https://videofied.com/robots.txt
+  status: 404
+  file: null
+contract_discovery:
+  note: >-
+    STEP 0b run against the only resolving company host. No REST OpenAPI, no GraphQL
+    surface, no MCP endpoint, no agent card. Nothing to introspect - the host serves
+    no application, only redirects.
+  probes:
+  - url: https://videofied.com/openapi.json
+    status: 404
+  - url: https://videofied.com/openapi.yaml
+    status: 404
+  - url: https://videofied.com/swagger.json
+    status: 404
+  - url: https://videofied.com/llms.txt
+    status: 404
+  - url: https://videofied.com/us/frontel-receiver-software/
+    status: 200
+    note: >-
+      Redirects off-brand to https://www.honeywellhome.com/collections/all - a product
+      catalog page, not the Frontel receiver page search engines still index.
+  - url: https://videofied.com/uk/frontel/
+    status: 200
+    note: Redirects off-brand to https://www.resideo.com/gb/en/software-apps/.
+  - url: https://rsivideo.com/
+    status: 200
+    note: >-
+      Parked-domain lander (114-byte JS redirect to /lander), not a company site. Not
+      confirmed to belong to RSI Video Technologies and therefore not treated as a
+      company host.
+successor_surface:
+  note: >-
+    Recorded for the reader, NOT attributed to this company. Any developer surface for
+    the Videofied product line today belongs to Resideo, which is a separate catalog
+    entry (all/resideo-technologies/). Per the ownership rule, none of it is wired into
+    this profile.
+  probes:
+  - url: https://developer.honeywellhome.com/
+    status: 200
+    owner: Resideo Technologies
+    note: Resideo developer site. No Videofied-specific API published on it.
+  - url: https://developer.resideo.com/
+    status: 000
+    owner: Resideo Technologies
+    note: Does not resolve / no response.
